@@ -1,4 +1,4 @@
-package farcicDev.usersSemMq.infra.config;
+package farcicDev.usersSemMq.infra.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
