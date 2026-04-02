@@ -1,0 +1,5 @@
+ALTER TABLE tb_users
+RENAME COLUMN id TO user_id;
+
+ALTER TABLE tb_users
+ADD COLUMN name VARCHAR(255) NOT NULL;
