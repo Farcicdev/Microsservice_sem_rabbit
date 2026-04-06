@@ -5,6 +5,7 @@ import farcicDev.usersSemMq.application.exeption.InvalidPasswordException;
 import farcicDev.usersSemMq.application.useCase.LoginUseCase;
 import farcicDev.usersSemMq.core.UsersGateway.UsersGateway;
 import farcicDev.usersSemMq.core.domain.Users;
+import farcicDev.usersSemMq.infra.config.security.JwtService;
 import farcicDev.usersSemMq.presentation.dto.LoginRequest;
 import farcicDev.usersSemMq.presentation.dto.LoginResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,10 +16,12 @@ public class LoginUseCaseImpl implements LoginUseCase {
 
     private final UsersGateway usersGateway;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public LoginUseCaseImpl(UsersGateway usersGateway, PasswordEncoder passwordEncoder) {
+    public LoginUseCaseImpl(UsersGateway usersGateway, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.usersGateway = usersGateway;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -30,10 +33,12 @@ public class LoginUseCaseImpl implements LoginUseCase {
         if(!passwordEncoder.matches(loginRequest.password(), user.password())){
             throw new InvalidPasswordException("Invalid password");
         }
-        return new LoginResponse(
-                "Login successful for user: ",
+
+        String token = jwtService.generateToken(
                 user.email(),
                 user.role().name()
         );
+
+        return new LoginResponse(token);
     }
 }
