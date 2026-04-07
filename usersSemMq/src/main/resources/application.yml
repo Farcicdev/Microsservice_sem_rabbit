@@ -25,5 +25,8 @@ jwt:
   secret: ${JWT_SECRET}
   expiration: 3600000 # 1 hour in milliseconds
 
+email-service:
+  url: http://localhost:8081
+
 server:
   port: 8080
